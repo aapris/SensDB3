@@ -1,5 +1,7 @@
 Django==1.11.3
+django-celery==3.2.1
 django-filter==1.0.4
 djangorestframework==3.6.3
 drf-extensions==0.3.1
-pytz==2017.2
+psutil
+python-dateutil
