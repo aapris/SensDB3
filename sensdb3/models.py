@@ -168,9 +168,9 @@ class Datalogger(models.Model):
                                  verbose_name=_('Logger data is in UTC time'))
     active = models.BooleanField(default=False, editable=True,
                                  verbose_name=_('Active'))
-    # alertemail = MultiEmailField(max_length=500, blank=True, editable=True,
-    #                              help_text=_('Separate multiple addresses by newline'),
-    #                              verbose_name=_('E-mail alert addresses'))
+    alertemail = models.TextField(max_length=500, blank=True, editable=True,
+                                 help_text=_('Separate multiple addresses by newline'),
+                                 verbose_name=_('E-mail alert addresses'))
     contactperson = models.TextField(blank=True, editable=True,
                                      verbose_name=_('Contact person'))
     lat = models.FloatField(blank=True, null=True,
