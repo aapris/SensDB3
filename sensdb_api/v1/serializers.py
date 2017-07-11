@@ -84,7 +84,6 @@ class DataloggerSerializer(serializers.ModelSerializer):
             "transmissioninterval", "timezone", "in_utc", "active", "lat",
             "lon", "firstmeasuring", "lastmeasuring",
             "measuringcount", "datapostcount", "lastdatapost",
-            "internal_attributes"
         )
 
     def to_representation(self, instance):
