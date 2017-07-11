@@ -7,7 +7,6 @@ import dateutil.parser
 import re
 from dateutil import tz
 import json
-from optparse import make_option
 
 from django.db import transaction
 from django.db.models import Count
