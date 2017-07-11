@@ -324,24 +324,20 @@ class Datapost(models.Model):
 
     datalogger = models.ForeignKey(Datalogger, blank=True, null=True)
     user = models.ForeignKey(User, models.SET_NULL, blank=True, null=True, verbose_name=_('Sender'))
-    idcode = models.CharField(max_length=40, db_index=True,
-                              editable=False,
-                              help_text="Dataogger's unique id code string")
-    status = models.IntegerField(default=0, editable=True,
-                                 choices=DATAPOST_STATUS_CHOICES,
+    idcode = models.CharField(max_length=40, db_index=True, editable=False,
+                              help_text="Datalogger's unique id code string")
+    status = models.IntegerField(default=0, editable=True, choices=DATAPOST_STATUS_CHOICES,
                                  verbose_name=_('Status'))
     protocol = models.CharField(max_length=20, default='', editable=False)
     version = models.CharField(max_length=20, default='', editable=False)
     compression = models.CharField(max_length=20, blank=True, editable=False)
-    data = models.TextField(editable=False,
-                            help_text="Raw data, received from data logger")
+    data = models.TextField(editable=False, help_text="Raw data, received from data logger")
     response = models.TextField(editable=False, blank=True, null=True)
     sessionid = models.CharField(max_length=200, blank=True, editable=False)
     ip = models.GenericIPAddressField(blank=True, null=True, editable=False)
     useragent = models.CharField(max_length=500, blank=True, editable=False)
     httpheaders = models.TextField(blank=True, editable=False)
-    created = models.DateTimeField(auto_now_add=True,
-                                   help_text="Record's creation time stamp")
+    created = models.DateTimeField(auto_now_add=True, help_text="Record's creation time stamp")
 
     def compress_data(self):
         """zlib compress and base64 encode the data field's value."""
