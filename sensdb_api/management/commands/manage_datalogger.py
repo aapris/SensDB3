@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import re
+from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 from sensdb3.models import Datalogger
 
@@ -21,7 +21,10 @@ def check_datalogger_exists(idcode):
     return dl
 
 
-def activate_datalogger(dl):
+def activate_datalogger(dl, cmd):
+    if dl.timezone is None or dl.timezone == '':
+        dl.timezone = settings.TIME_ZONE
+        cmd.stdout.write(cmd.style.WARNING("Warning: Datalogger's time zone was set to {}.".format(settings.TIME_ZONE)))
     dl.status = 'ACTIVE'
     dl.active = True
     dl.save()
@@ -68,14 +71,14 @@ class Command(BaseCommand):
             if created == False:
                 raise CommandError('Datalogger with idcode "{}" already exists.'.format(idcode))
             if activate:
-                activate_datalogger(dl)
+                activate_datalogger(dl, self)
             self.stdout.write(self.style.SUCCESS('Datalogger was created successfully.'))
         if command.lower() == 'activate':
             dl = check_datalogger_exists(idcode)
             if dl.active == True:
                 self.stdout.write(self.style.WARNING('Datalogger was already active.'))
             else:
-                activate_datalogger(dl)
+                activate_datalogger(dl, self)
                 self.stdout.write(self.style.SUCCESS('Datalogger was activated successfully.'))
         if command.lower() == 'deactivate':
             dl = check_datalogger_exists(idcode)
