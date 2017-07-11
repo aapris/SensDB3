@@ -1,5 +1,4 @@
 import datetime
-from django.contrib.sites.models import Site
 from django.core.mail import send_mail
 from django.utils import timezone
 
@@ -32,7 +31,7 @@ def check_alerts(datalogger, dataitem):
                  dataitem.value > dataitem.unit.alerthigh
     # alertexpression = dataitem.unit.alertexpression
     if low_alert or high_alert:
-        current_site = Site.objects.get_current()
+        # TODO: add site / domain info to message
         now = timezone.now()
         active_alerts = Alert.objects.filter(unit=dataitem.unit).filter(
             expires__gt=now)
@@ -41,15 +40,9 @@ def check_alerts(datalogger, dataitem):
             unit = dataitem.unit
             a = Alert(state='NEW', unit=unit, expires=expires)
             a.save()
-            subject = u'[%s alert] %s %s' % (
-                current_site.domain, datalogger.idcode, datalogger.name)
+            subject = u'[Alert] {} {}'.format(datalogger.idcode, datalogger.name)
             msg = []
-            msg.append(
-                u"Alert in logger %s. %s" % (datalogger.idcode, unit.name))
-            # FIXME: hardcoded http scheme (https) here!
-            # TODO: use resolve()?
-            msg.append(u"https://%s/logger/%s" % (
-                current_site.domain, datalogger.idcode))
+            msg.append(u"Alert in logger {}. {}".format(datalogger.idcode, unit.name))
             if low_alert:
                 msg.append(u"LOW:  %.3f < %.3f" % (
                     dataitem.value, dataitem.unit.alertlow))
@@ -58,7 +51,7 @@ def check_alerts(datalogger, dataitem):
                     dataitem.value, dataitem.unit.alerthigh))
             tos = []
             if datalogger.alertemail:
-                tos += datalogger.alertemail  # MultiEmailField
+                tos += datalogger.alertemail  # Was MultiEmailField
             send_mail(subject, u'\r\n'.join(msg), FROM_EMAIL,
                       tos, fail_silently=True)
 
