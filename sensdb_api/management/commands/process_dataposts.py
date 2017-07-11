@@ -305,8 +305,7 @@ class Command(BaseCommand):
                     self.stdout.write(msg + '\n')
         act_loggers = Datalogger.objects.filter(active=False).values('idcode')
         inactive_logger = Datapost.objects.filter(datalogger__isnull=True)\
-            .filter(idcode__in=act_loggers).values('idcode')\
-            .annotate(Count('idcode'))
+            .filter(idcode__in=act_loggers).values('idcode').annotate(Count('idcode'))
         if len(inactive_logger) > 0:
             for cnt in inactive_logger:
                 msg = ("Datalogger '%(idcode)s' exists, but is inactive "
