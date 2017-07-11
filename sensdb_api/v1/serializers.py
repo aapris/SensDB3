@@ -59,18 +59,18 @@ class RelatedDataloggerValidationMixin(GenericValidationMixin):
 
 class DataloggerSerializer(serializers.ModelSerializer):
     url = serializers.HyperlinkedIdentityField(
-        view_name='v2:datalogger-detail',
+        view_name='v1:datalogger-detail',
         lookup_field='idcode',
         lookup_url_kwarg='idcode',
         read_only=True
     )
     units = serializers.HyperlinkedIdentityField(
-        view_name='v2:datalogger-units',
+        view_name='v1:datalogger-units',
         lookup_field='idcode',
         read_only=True
     )
     formulas = serializers.HyperlinkedIdentityField(
-        view_name='v2:datalogger-formulas',
+        view_name='v1:datalogger-formulas',
         lookup_field='idcode',
         read_only=True
     )
@@ -118,15 +118,15 @@ class DataloggerSerializer(serializers.ModelSerializer):
 class UnitSerializer(RelatedDataloggerValidationMixin,
                      serializers.ModelSerializer):
     url = serializers.HyperlinkedIdentityField(
-        view_name='v2:unit-detail',
+        view_name='v1:unit-detail',
         read_only=True
     )
     data = serializers.HyperlinkedIdentityField(
-        view_name='v2:unit-data',
+        view_name='v1:unit-data',
         read_only=True
     )
     datalogger = serializers.HyperlinkedRelatedField(
-        view_name='v2:datalogger-detail',
+        view_name='v1:datalogger-detail',
         queryset=models.Datalogger.objects.all(),
         lookup_field="idcode",
     )
@@ -160,11 +160,11 @@ class UnitSerializer(RelatedDataloggerValidationMixin,
 
 class FormulaSerializer(serializers.ModelSerializer):
     url = serializers.HyperlinkedIdentityField(
-        view_name='v2:formula-detail',
+        view_name='v1:formula-detail',
         read_only=True
     )
     datalogger = serializers.HyperlinkedRelatedField(
-        view_name='v2:datalogger-detail',
+        view_name='v1:datalogger-detail',
         queryset=models.Datalogger.objects.all(),
         lookup_field="idcode",
     )
@@ -192,7 +192,7 @@ class DataSerializer(serializers.ModelSerializer):
     #    style={'base_template': 'input.html'}
     #)
     unit = serializers.HyperlinkedRelatedField(
-        view_name='v2:unit-detail',
+        view_name='v1:unit-detail',
         queryset=models.Unit.objects.all()
     )
 
@@ -219,11 +219,11 @@ class DataSerializer(serializers.ModelSerializer):
 class LogSerializer(RelatedDataloggerValidationMixin,
                     serializers.ModelSerializer):
     url = serializers.HyperlinkedIdentityField(
-        view_name='v2:log-detail',
+        view_name='v1:log-detail',
         read_only=True
     )
     datalogger = serializers.HyperlinkedRelatedField(
-        view_name='v2:datalogger-detail',
+        view_name='v1:datalogger-detail',
         queryset=models.Datalogger.objects.all(),
         lookup_field="idcode",
     )
@@ -261,7 +261,7 @@ class LogSerializer(RelatedDataloggerValidationMixin,
 
 class UserSerializer(serializers.ModelSerializer):
     url = serializers.HyperlinkedIdentityField(
-        view_name='v2:user-detail',
+        view_name='v1:user-detail',
         lookup_field='username',
         read_only=True
     )
@@ -291,7 +291,7 @@ class UserSerializer(serializers.ModelSerializer):
         return [
             {
                 "datalogger": reverse(
-                    "v2:datalogger-detail",
+                    "v1:datalogger-detail",
                     args=[d.datalogger.idcode],
                     request=self.context["request"],
                 ),

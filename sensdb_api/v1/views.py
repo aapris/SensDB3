@@ -71,7 +71,7 @@ class DataloggerViewSet(BaseViewSet):
 
     def _get_children(self, datalogger, qs, serializer_cls):
         datalogger_url = reverse(
-            "v2:datalogger-detail",
+            "v1:datalogger-detail",
             args=[datalogger.idcode],
             request=self.request
         )
@@ -112,7 +112,7 @@ class UnitViewSet(mixins.CreateModelMixin,
         """
         unit = self.get_object()
         unit_url = reverse(
-            "v2:unit-detail",
+            "v1:unit-detail",
             args=[unit.id],
             request=self.request
         )
@@ -244,7 +244,7 @@ def export_data(request):
                 "timestamp": d.timestamp,
                 "formula": None,
                 "unit": reverse(
-                    "v2:unit-detail",
+                    "v1:unit-detail",
                     args=[d.unit.id],
                     request=request,
                 ),
@@ -265,7 +265,7 @@ def export_data(request):
                                        filter_data["end"],
                                        showinvalid=filter_data["show_invalid"])
             formula_url = reverse(
-                "v2:formula-detail",
+                "v1:formula-detail",
                 args=[formula.id],
                 request=request,
             )
