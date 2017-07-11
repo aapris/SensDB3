@@ -34,7 +34,7 @@ def get_uid(length=12):
         str: a random string of string.letters + string.digits
     """
     return ''.join([ALPHANUM[random.randint(0,
-                             len(ALPHANUM) - 1)] for _ in xrange(length)])
+                             len(ALPHANUM) - 1)] for _ in range(length)])
 
 MEASURINGINTERVAL_CHOICES = [
     (1 * 60, _('1 min')),
