@@ -52,7 +52,7 @@ def postdata_espeasy(request, version='0.0.0'):
             process_dataposts_task.delay(dp.pk)
         except Exception as err:  # Broker is not listening: redis.exceptions.ConnectionError
             # lograw.info(err)
-            print(type(err))
+            print('Task error (broker not running?): {}'.format(err))
     utc_dt = timezone.now()
     time_str = utc_dt.strftime('%Y-%m-%dT%H:%M:%SZ')
     responsetext = '$OK,{}'.format(time_str)
